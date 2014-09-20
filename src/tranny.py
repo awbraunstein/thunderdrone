@@ -9,7 +9,7 @@ class Tranny(object):
         if not is_valid:
             raise Exception('transformation is not valid')
         self.trans = trans
-    
+
 
     def verify_trans(self, trans):
         for key in trans:
@@ -20,7 +20,15 @@ class Tranny(object):
             if count != 1:
                 return False
         return True
-        
+
+    def get_generator(self):
+        last = None
+        last = self.get_next(last)
+        yield last
+        while True:
+            last = self.get_next(last)
+            yield last
+
 
     def get_next(self, prev):
         if prev is None:
@@ -48,7 +56,7 @@ def build_pitch_tranny():
         Pitch.F: [(Pitch.A, .1), (Pitch.B, .1), (Pitch.C, .2), (Pitch.D, .2),
                   (Pitch.E, .2), (Pitch.F, .1), (Pitch.G, .1)],
         Pitch.G: [(Pitch.A, .1), (Pitch.B, .1), (Pitch.C, .2), (Pitch.D, .2),
-                  (Pitch.E, .2), (Pitch.F, .1), (Pitch.G, .1)]        
+                  (Pitch.E, .2), (Pitch.F, .1), (Pitch.G, .1)]
         }
 
     return Tranny(trans)
@@ -64,5 +72,5 @@ def build_note_tranny():
     return Tranny(trans)
 
 pitch_tranny = build_pitch_tranny()
-        
+
 note_tranny = build_note_tranny()
