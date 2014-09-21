@@ -10,6 +10,7 @@ class Scale:
     MAJOR = [0,2,4,5,7,9,11]
     MINOR = [0,2,3,5,7,9,10]
     BLUES = [0,3,5,6,7,10]
+    LYDIAN_B7 = [0,2,4,6,7,9,10,12]
 
 """
 Scale /Hungarian_Gypsy 0 2 3 6 7 8 10");

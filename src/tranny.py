@@ -27,8 +27,6 @@ class Tranny(object):
 
     def get_generator(self):
         last = None
-        last = self.get_next(last)
-        yield last
         while True:
             last = self.get_next(last)
             yield last
@@ -100,3 +98,36 @@ def _get_matching_chords(scale):
                 transposed_chord = sorted([(n + curr_note) % 12 for n in v])
                 good_chords[str(curr_note) + "_" + k] = transposed_chord
     return good_chords
+
+def build_note_tranny(scale, curr_chord):
+    tranny = {}
+    for note in scale:
+        tranny[note] = _generate_tranny_lead_row(note, scale, curr_chord)
+    return Tranny(tranny)
+
+def _generate_tranny_lead_row(note, scale, curr_chord):
+    points = list()
+    total_points = 0
+    for curr_note in scale:
+        curr_note_points = 3
+        if curr_note in curr_chord:
+            curr_note_points += 5 # points for being in scale
+        if abs(curr_note - note) is 2:
+            curr_note_points += 3
+        elif abs(curr_note - note) is 4:
+            curr_note_points += 4
+        elif abs(curr_note - note) is 7:
+            curr_note_points += 5
+        elif curr_note is note: # penalize for being same note
+            curr_note_points = curr_note_points / 2.0
+        points.append(curr_note_points)
+        total_points += curr_note_points
+        
+    tranny_row = list()
+    for curr_note, curr_points in zip(scale, points):
+        tranny_row.append((curr_note, curr_points / float(total_points)))
+
+    return tranny_row
+            
+            
+        
