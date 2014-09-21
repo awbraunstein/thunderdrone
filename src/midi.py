@@ -19,11 +19,11 @@ class Midi(object):
             self.midi_file.addTrackName(i, config.time, config.name)
             self.midi_file.addTempo(i, config.time, config.tempo)
 
-    def append_note(self, note, pitch, volume=100, track=0, channel=0):
-        duration = constants.NOTE_MAP[note]
-        midi_pitch = constants.PITCH_MAP[pitch]
+    def append_note(self, duration, pitches, volume=100, track=0, channel=0):
         time = self.track_time[track]
-        self.midi_file.addNote(track, channel, midi_pitch, time, duration, volume)
+        for pitch in pitches:
+            pitch += constants.C3
+            self.midi_file.addNote(track, channel, pitch, time, duration, volume)
         self.track_time[track] += duration
         return time
 
